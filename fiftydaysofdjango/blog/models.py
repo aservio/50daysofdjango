@@ -1,5 +1,6 @@
 from django.conf import settings
 from django.db import models
+from django.urls import reverse
 from django.utils import timezone
 
 class PublishedManager(models.Manager):
@@ -27,6 +28,7 @@ class Post(models.Model):
     publish = models.DateTimeField(default=timezone.now)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
+    sponsor = models.CharField(max_length=100)
     status = models.CharField(
         max_length=2,
         choices=Status,
@@ -46,3 +48,7 @@ class Post(models.Model):
 
     def __str__(self):
         return self.title
+    
+    def get_absolute_url(self):
+        return reverse("blog:post_detail", args=[self.id])
+    
