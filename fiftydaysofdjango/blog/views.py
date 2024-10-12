@@ -14,5 +14,7 @@ def post_detail(request, id):
         id =id,
         status= Post.Status.PUBLISHED)
     return render(
-        request, 'blog/post/detail.html', {post: post}
+        request, 
+        'blog/post/detail.html', 
+        {'post': post}
     )
