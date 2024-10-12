@@ -28,7 +28,7 @@ class Post(models.Model):
     publish = models.DateTimeField(default=timezone.now)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
-    sponsor = models.CharField(max_length=100)
+    sponsor = models.CharField(max_length=100, blank=True)
     status = models.CharField(
         max_length=2,
         choices=Status,
