@@ -5,10 +5,15 @@ from .models import Post
 from django.views.generic import ListView
 from .forms import CommentForm, EmailPostForm
 from django.core.mail import send_mail
+from taggit.models import Tag
 
 
-def post_list(request):
+def post_list(request, tag_slug=None):
     post_list = Post.published.all()
+    tag = None
+    if tag_slug:
+        tag = get_object_or_404(Tag, slug=tag_slug)
+        post_list = posty_list.filter(tags__in[tag])
     paginator = Paginator(post_list, 5)
     page_number = request.GET.get('page', 1)
     try:
@@ -20,7 +25,10 @@ def post_list(request):
     return render(
         request,
         "blog/post/list.html",
-        {'posts' : posts}
+        {
+            'posts' : posts,
+            'tag' : tag
+            }
     )
 
 def post_detail(request, year, month, day, post):
